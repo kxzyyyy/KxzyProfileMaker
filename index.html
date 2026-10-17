@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kxzy Profile Maker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+</head>
+<body>
+<header>
+  <h1>Kxzy Profile Maker</h1>
+  <p>Discord profile kits. Resize, preview &amp; export. Everything runs locally in your browser.</p>
+</header>
+
+<main>
+  <aside id="controls">
+    <section class="panel">
+      <h2>Uploads</h2>
+      <div class="drop" id="dropPfp" tabindex="0">
+        <strong>Profile picture</strong>
+        <span>Click or drop an image</span>
+        <em>Exports at 1080×1080 (square crop)</em>
+      </div>
+      <input type="file" id="filePfp" accept="image/*" hidden>
+      <div class="drop" id="dropBanner" tabindex="0">
+        <strong>Banner</strong>
+        <span>Click or drop an image</span>
+        <em>Exports at 680×240</em>
+      </div>
+      <input type="file" id="fileBanner" accept="image/*" hidden>
+    </section>
+
+    <section class="panel">
+      <h2>Profile card</h2>
+      <label>Custom status
+        <input id="inStatus" type="text" value="vibing" maxlength="128" placeholder="emoji welcome here">
+      </label>
+      <div class="row">
+        <label class="grow">Activity dot
+          <select id="inPresence">
+            <option value="online" selected>Online</option>
+            <option value="idle">Idle</option>
+            <option value="dnd">Do Not Disturb</option>
+            <option value="offline">Offline / Invisible</option>
+          </select>
+        </label>
+        <label>Card color (hex)
+          <input id="inColor" type="text" value="#111214" maxlength="7" spellcheck="false" placeholder="#111214">
+        </label>
+      </div>
+    </section>
+  </aside>
+
+  <section id="output">
+    <div class="panel">
+      <div class="panel-head">
+        <h2>Profile picture <small>1080×1080</small></h2>
+        <button class="dl" data-what="pfp">Download PNG</button>
+      </div>
+      <div class="stage">
+        <canvas id="cvPfp" width="1080" height="1080" title="Drag to reposition"></canvas>
+      </div>
+      <label class="zoom">Zoom
+        <input id="zoomPfp" type="range" min="1" max="2.5" step="0.01" value="1">
+      </label>
+      <p class="hint">Drag the image to reposition the crop.</p>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <h2>Banner <small>680×240</small></h2>
+        <button class="dl" data-what="banner">Download PNG</button>
+      </div>
+      <div class="stage">
+        <canvas id="cvBanner" width="680" height="240" title="Drag to reposition"></canvas>
+      </div>
+      <label class="zoom">Zoom
+        <input id="zoomBanner" type="range" min="1" max="2.5" step="0.01" value="1">
+      </label>
+      <p class="hint">Drag the image to reposition the crop.</p>
+    </div>
+
+    <div class="panel wide">
+      <div class="panel-head">
+        <h2>Discord profile preview <small>3x render</small></h2>
+        <button class="dl" data-what="profile">Download PNG</button>
+      </div>
+      <div class="stage">
+        <canvas id="cvProfile"></canvas>
+      </div>
+    </div>
+
+    <div class="panel wide">
+      <div class="panel-head">
+        <h2>TikTok slide <small>1080×1080</small></h2>
+        <button class="dl" data-what="slide">Download PNG</button>
+      </div>
+      <div class="stage dark-checker">
+        <canvas id="cvSlide" width="1080" height="1080"></canvas>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <button id="zipBtn">Download everything as ZIP</button>
+  <p>made by discord: @kxzy.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

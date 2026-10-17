@@ -1,0 +1,233 @@
+@font-face {
+  font-family: "gg sans";
+  src: url("https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/ggsans-normal-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "gg sans";
+  src: url("https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/ggsans-normal-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "gg sans";
+  src: url("https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/ggsans-normal-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "gg sans";
+  src: url("https://cdn.jsdelivr.net/gh/Tyrrrz/DiscordFonts@master/ggsans-normal-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --bg: #0e0f12;
+  --panel: #191b20;
+  --panel-2: #20232b;
+  --line: #2b2f38;
+  --text: #e8eaf0;
+  --muted: #9aa0ad;
+  --accent: #5865f2;
+  --accent-2: #4752c4;
+  --radius: 12px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "gg sans", "Noto Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+header {
+  padding: 32px clamp(16px, 4vw, 48px) 8px;
+}
+header h1 {
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: -0.02em;
+}
+header p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+main {
+  display: grid;
+  grid-template-columns: minmax(280px, 340px) 1fr;
+  gap: 20px;
+  padding: 20px clamp(16px, 4vw, 48px) 40px;
+  align-items: start;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 20px;
+}
+.panel h2 {
+  margin: 0 0 14px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.panel h2 small {
+  font-weight: 500;
+  color: var(--muted);
+  font-size: 12px;
+  margin-left: 6px;
+}
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.panel-head h2 { margin: 0; }
+
+#controls { position: sticky; top: 20px; }
+
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+input[type="text"],
+input[type="date"],
+select,
+textarea {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 9px 10px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  text-transform: none;
+  letter-spacing: normal;
+}
+input[type="text"]:focus,
+input[type="date"]:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+textarea { resize: vertical; }
+
+.row { display: flex; gap: 12px; align-items: flex-end; }
+.row .grow { flex: 1; }
+
+.drop {
+  border: 1.5px dashed var(--line);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  transition: border-color 0.15s, background 0.15s;
+}
+.drop:hover, .drop.dragover { border-color: var(--accent); background: rgba(88, 101, 242, 0.07); }
+.drop strong { font-size: 14px; }
+.drop span { font-size: 12px; color: var(--muted); }
+.drop em { font-style: normal; font-size: 11px; color: #6b7180; }
+.drop.loaded { border-style: solid; }
+
+#output {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+#output .panel { margin-bottom: 0; }
+#output .wide { grid-column: 1 / -1; }
+
+.stage {
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+.stage canvas {
+  max-width: 100%;
+  height: auto;
+}
+#cvPfp { max-width: 220px; cursor: grab; }
+#cvBanner { max-width: 100%; cursor: grab; }
+#cvPfp:active, #cvBanner:active { cursor: grabbing; }
+#cvProfile { max-width: 360px; }
+#cvSlide { max-width: 340px; }
+.dark-checker {
+  background-image:
+    linear-gradient(45deg, #24272f 25%, transparent 25%),
+    linear-gradient(-45deg, #24272f 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #24272f 75%),
+    linear-gradient(-45deg, transparent 75%, #24272f 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+}
+
+.zoom {
+  margin: 12px 0 0;
+  text-transform: none;
+  letter-spacing: normal;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.zoom input { flex: 1; accent-color: var(--accent); }
+
+.hint { margin: 8px 0 0; font-size: 11px; color: #6b7180; }
+
+button.dl, #zipBtn {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+button.dl:hover, #zipBtn:hover { background: var(--accent-2); }
+
+footer {
+  padding: 0 clamp(16px, 4vw, 48px) 48px;
+  text-align: center;
+}
+#zipBtn {
+  font-size: 16px;
+  padding: 14px 32px;
+  border-radius: 10px;
+}
+footer p { color: #6b7180; font-size: 12px; margin-top: 14px; }
+
+@media (max-width: 860px) {
+  main { grid-template-columns: 1fr; }
+  #controls { position: static; }
+}
