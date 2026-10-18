@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gif.js@0.2.0/dist/gif.js"></script>
 </head>
 <body>
 <header>
@@ -22,16 +23,16 @@
       <h2>Uploads</h2>
       <div class="drop" id="dropPfp" tabindex="0">
         <strong>Profile picture</strong>
-        <span>Click or drop an image</span>
-        <em>Exports at 1080×1080 (square crop)</em>
+        <span>Click or drop an image or GIF</span>
+        <em>Exports at 1080×1080 (square crop, GIFs stay animated)</em>
       </div>
-      <input type="file" id="filePfp" accept="image/*" hidden>
+      <input type="file" id="filePfp" accept="image/*,.gif" hidden>
       <div class="drop" id="dropBanner" tabindex="0">
         <strong>Banner</strong>
-        <span>Click or drop an image</span>
-        <em>Exports at 680×240</em>
+        <span>Click or drop an image or GIF</span>
+        <em>Exports at 680×240 (GIFs stay animated)</em>
       </div>
-      <input type="file" id="fileBanner" accept="image/*" hidden>
+      <input type="file" id="fileBanner" accept="image/*,.gif" hidden>
     </section>
 
     <section class="panel">
@@ -56,13 +57,16 @@
   </aside>
 
   <section id="output">
-    <div class="panel">
+    <div class="panel wide">
       <div class="panel-head">
         <h2>Profile picture <small>1080×1080</small></h2>
         <button class="dl" data-what="pfp">Download PNG</button>
       </div>
       <div class="stage">
-        <canvas id="cvPfp" width="1080" height="1080" title="Drag to reposition"></canvas>
+        <div class="cropwrap">
+          <canvas id="cvPfp" width="1080" height="1080" title="Drag to reposition"></canvas>
+          <img class="gifov" id="ovPfp" alt="">
+        </div>
       </div>
       <label class="zoom">Zoom
         <input id="zoomPfp" type="range" min="1" max="2.5" step="0.01" value="1">
@@ -70,13 +74,16 @@
       <p class="hint">Drag the image to reposition the crop.</p>
     </div>
 
-    <div class="panel">
+    <div class="panel wide">
       <div class="panel-head">
         <h2>Banner <small>680×240</small></h2>
         <button class="dl" data-what="banner">Download PNG</button>
       </div>
       <div class="stage">
-        <canvas id="cvBanner" width="680" height="240" title="Drag to reposition"></canvas>
+        <div class="cropwrap">
+          <canvas id="cvBanner" width="680" height="240" title="Drag to reposition"></canvas>
+          <img class="gifov" id="ovBanner" alt="">
+        </div>
       </div>
       <label class="zoom">Zoom
         <input id="zoomBanner" type="range" min="1" max="2.5" step="0.01" value="1">
@@ -101,6 +108,52 @@
       </div>
       <div class="stage dark-checker">
         <canvas id="cvSlide" width="1080" height="1080"></canvas>
+      </div>
+    </div>
+
+    <div class="panel wide" id="converter">
+      <div class="panel-head">
+        <h2>GIF converter <small>gif or video to resized gif</small></h2>
+      </div>
+      <div class="conv-grid">
+        <div class="drop" id="dropConv" tabindex="0">
+          <strong>Drop a GIF or video</strong>
+          <span>Click or drop a file</span>
+          <em>GIFs keep every frame, videos are sampled at the chosen fps</em>
+        </div>
+        <input type="file" id="fileConv" hidden>
+        <div class="conv-opts">
+          <label>Size
+            <select id="convSize">
+              <option value="banner" selected>Banner (680×240)</option>
+              <option value="pfp">PFP (1080×1080)</option>
+              <option value="original">Original</option>
+              <option value="custom">Custom</option>
+            </select>
+          </label>
+          <div class="row" id="convDims" hidden>
+            <label class="grow">Width
+              <input id="convW" type="number" value="680" min="16" max="1920">
+            </label>
+            <label class="grow">Height
+              <input id="convH" type="number" value="240" min="16" max="1920">
+            </label>
+          </div>
+          <label id="convFpsLabel" hidden>FPS <small>(video only)</small>
+            <input id="convFps" type="number" value="15" min="1" max="30">
+          </label>
+          <div class="stage" id="convStage" hidden>
+            <canvas id="convCv"></canvas>
+          </div>
+          <label class="zoom" id="convZoomLabel" hidden>Zoom
+            <input id="convZoom" type="range" min="1" max="2.5" step="0.01" value="1">
+          </label>
+          <p class="hint" id="convDragHint" hidden>Drag the preview to position the crop.</p>
+          <button id="convBtn" disabled>Convert to GIF</button>
+          <p class="hint" id="convStatus">Pick a file to convert.</p>
+          <img id="convPreview" alt="" hidden>
+          <a id="convOut" class="dl-link" hidden>Download converted GIF</a>
+        </div>
       </div>
     </div>
   </section>

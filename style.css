@@ -40,6 +40,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 
 body {
   margin: 0;
@@ -110,6 +111,7 @@ label {
 }
 input[type="text"],
 input[type="date"],
+input[type="number"],
 select,
 textarea {
   display: block;
@@ -127,6 +129,7 @@ textarea {
 }
 input[type="text"]:focus,
 input[type="date"]:focus,
+input[type="number"]:focus,
 select:focus,
 textarea:focus {
   outline: none;
@@ -175,6 +178,15 @@ textarea { resize: vertical; }
   max-width: 100%;
   height: auto;
 }
+.cropwrap { position: relative; display: inline-block; line-height: 0; overflow: hidden; }
+.cropwrap .gifov {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: none;
+  max-width: none;
+  pointer-events: none;
+}
 #cvPfp { max-width: 220px; cursor: grab; }
 #cvBanner { max-width: 100%; cursor: grab; }
 #cvPfp:active, #cvBanner:active { cursor: grabbing; }
@@ -201,6 +213,45 @@ textarea { resize: vertical; }
 .zoom input { flex: 1; accent-color: var(--accent); }
 
 .hint { margin: 8px 0 0; font-size: 11px; color: #6b7180; }
+
+.conv-grid {
+  display: grid;
+  grid-template-columns: minmax(220px, 300px) 1fr;
+  gap: 18px;
+  align-items: start;
+}
+.conv-grid .drop { margin-bottom: 0; }
+#convBtn {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: 8px;
+  padding: 9px 16px;
+  cursor: pointer;
+}
+#convBtn:hover:not(:disabled) { background: var(--accent-2); }
+#convBtn:disabled { opacity: 0.45; cursor: default; }
+#convPreview {
+  display: block;
+  max-width: 100%;
+  max-height: 260px;
+  margin-top: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+.dl-link {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 600;
+}
+@media (max-width: 640px) {
+  .conv-grid { grid-template-columns: 1fr; }
+}
 
 button.dl, #zipBtn {
   font: inherit;
